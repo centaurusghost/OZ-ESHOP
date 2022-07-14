@@ -58,7 +58,10 @@ include('../db/connect.php');
 
                     <a href="./users.php"><i class="fa-solid fa-users"></i> Users</a>
                 </li>
-
+                <li class="d-flex mx-2 align-items-center">
+                    <a href="./supplier_request.php"> <i class="fa-solid fa-boxes-packing "></i>
+                        Supplier Requests </a>
+                </li>
                 <li class="d-flex mx-2 align-items-center">
                     <a href="./products.php"> <i class="fa-brands fa-product-hunt"></i>
                         Products</a>
@@ -105,6 +108,22 @@ include('../db/connect.php');
                     </span>
                 </div>
             </form>
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-xs-7">
+                        <tr>
+                            <!-- add category text field  -->
+                            <input type="text" id="add_category_text" maxlength="20" name="add_category_text" required> </input>
+                            <a href="javascript:;" onclick="this.href='./add_category.php?category_name=' + document.getElementById('add_category_text').value">
+                                <td><button class='btn btn-success btn-sm edit btn-flat'><i class='fa fa-plus'></i> Add Category</button>
+                            </a>
+                            </td>
+                        </tr>
+                    </div>
+                </div>
+            </div>
+
+
 
             <div class="container mt-5">
                 <div class="row">
@@ -127,19 +146,15 @@ include('../db/connect.php');
                                                 <tr>
                                                     <td><?php echo $row['category_name'] ?></td>
                                                     <td><button class='btn btn-success btn-sm edit btn-flat'><i class='fa fa-edit'></i> Edit</button>
-                                                        <button class='btn btn-danger btn-sm delete btn-flat'><i class='fa fa-trash'></i> Delete</button>
+                                                        <!-- <button class='btn btn-danger btn-sm delete btn-flat'><i class='fa fa-trash'></i> Delete</button> -->
+                                                        <a href="./delete_category.php?category_id=<?php echo $row['category_id'] ?>" class='btn btn-danger btn-sm delete btn-flat' onclick="return confirm('Are you want to delete?')"><i class='fa fa-trash'></i> Delete</a>
                                                     </td>
                                                 </tr>
                                         <?php
                                             }
                                         }
                                         ?>
-                                        <tr>
-                                            <td>Television</td>
-                                            <td><button class='btn btn-success btn-sm edit btn-flat'><i class='fa fa-edit'></i> Edit</button>
-                                                <button class='btn btn-danger btn-sm delete btn-flat'><i class='fa fa-trash'></i> Delete</button>
-                                            </td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>

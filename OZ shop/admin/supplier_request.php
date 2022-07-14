@@ -1,6 +1,7 @@
 <?php
-include('./get_summary.php');
+include('../db/connect.php');
 ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -100,35 +101,61 @@ include('./get_summary.php');
                 </div>
             </nav>
 
+            <form method="POST" class="mx-auto w-25" action="search.php">
+                <div class="input-group ">
+                    <input type="text" class="form-control rounded" id="navbar-search-input" name="keyword" placeholder="Search..." required>
+                    <span class="input-group-btn" id="searchBtn" style="display:none;">
+                        <button type="submit" class="btn btn-default btn-flat"><i class="fa fa-search"></i> </button>
+                    </span>
+                </div>
+            </form>
+
             <div class="container mt-5">
-                <div class="row gx-4 gx-lg-4 row-cols-sm-1 row-cols-md-2 row-cols-xl-3 ">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-body">
+                                <table id="example1" class="table table-bordered">
+                                    <thead>
+                                        <th>Supplier Name</th>
+                                        <th>Address</th>
+                                        <th>Phone Number</th>
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $query = "SELECT * FROM pending_supplier";
+                                        $user_phone_number = 0;
+                                        $data = mysqli_query($con, $query);
+                                        $result = mysqli_num_rows($data);
+                                        if ($result) {
+                                            while ($row = mysqli_fetch_array($data)) {
+                                                $user_id = (int)$row['user_id'];
+                                                $supplier_name=$row['supplier_name'];
+                                                $supplier_address=$row['supplier_address'];
 
-                    <div class="col mb-5">
-                        <div class="card d-flex justify-content-center align-items-center " style="height:200px;">
-                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Users: <span> <?php  get_total_users();  ?> </span></p>
-                        </div>
-                    </div>
+                                        ?>
+                                                <tr>
+                                                    <td><?php echo $row['supplier_name'] ?></td>
+                                                    <td><?php echo $row['supplier_address'] ?></td>
+                                                    <td><?php $query_phone_number = "select user_phone_number from user where user_id='$user_id'";
 
-                    <div class="col mb-5">
-                        <div class="card d-flex justify-content-center align-items-center " style="height:200px;">
-                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Suppliers: <span><?php  get_total_suppliers();  ?></span></p>
-                        </div>
-                    </div>
-
-                    <div class="col mb-5">
-                        <div class="card d-flex justify-content-center align-items-center " style="height:200px;">
-                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Products: <span><?php  get_total_products();  ?></span></p>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card d-flex justify-content-center align-items-center " style="height:200px;">
-                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Category: <span><?php  get_total_category();  ?></span></p>
-                        </div>
-                    </div>
-
-                    <div class="col mb-5">
-                        <div class="card d-flex justify-content-center align-items-center " style="height:200px;">
-                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Transcation: <span>RS. <?php  get_total_transaction();  ?>+</span></p>
+                                                        $result_phone_number = mysqli_query($con, $query_phone_number);
+                                                        while ($row1 = mysqli_fetch_assoc($result_phone_number)) {
+                                                            $user_phone_number = (int)$row1['user_phone_number'];
+                                                        }
+                                                        echo $user_phone_number ?></td>
+                                                    <td><button class='btn btn-success btn-sm edit btn-flat'><i class='fa fa-check'></i> Approve</button>
+                                                        <button class='btn btn-danger btn-sm delete btn-flat'><i class='fa fa-trash'></i> Delete</button>
+                                                    </td>
+                                                </tr>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

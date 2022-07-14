@@ -1,5 +1,6 @@
 <?php
 include('./db/connect.php');
+session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,22 +47,43 @@ include('./db/connect.php');
       <div class="header_top">
         <div class="container-fluid">
           <div class="top_nav_container">
-            <div class="contact_nav">
-              <a href="">
-                <i class="fa fa-phone" aria-hidden="true"></i>
-                <span>
-                  Become a supplier
-                </span>
-              </a>
+            <?php
+            include('./supplier/supplier_checker.php');
+            checkIsSupplier();
 
-            </div>
-            <from class="search_form">
-              <input type="text" class="form-control" placeholder="Search here...">
-              <button class="" type="submit">
+            // php code here to check if supplier or not
+
+            ?>
+
+            <form class="search_form" method="$POST">
+              <input type="text" class="form-control" name="search_text" placeholder="Search here...">
+              <button class="" type="submit" name="search_button" value="">
                 <i class="fa fa-search" aria-hidden="true"></i>
               </button>
-            </from>
+            </form>
+
+
+            <!-- <form class="d-flex" role="search" method="GET">
+              <input class="form-control me-2" type="search" name="search_text" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" name="search_botton" type="submit">Search</button>
+            </form> -->
+
             <div class="user_option_box">
+
+              <!-- php function here to handle login logout actions -->
+
+              <!-- <a href="#" class="account-link">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>text</span>
+              </a> -->
+
+              <?php
+              include('./user/check_login_state.php');
+
+              login_logout_button_handler();
+
+              ?>
+
               <a href="./admin/home.php" class="account-link">
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span>
@@ -82,7 +104,7 @@ include('./db/connect.php');
       <div class="header_bottom">
         <div class="container-fluid">
           <nav class="navbar navbar-expand-lg custom_nav-container ">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="index.php">
               <span>
                 OZshop
               </span>
@@ -103,35 +125,18 @@ include('./db/connect.php');
                     Category
                   </a>
                   <ul class="dropdown-menu" id="dropdown-menu">
-                    <li><a class=" text-dark px-2" id="cat1" href="#">Electronics >></a>
-                      <ul class=" bg-white position-absolute start-50 top-1 p-2 border border-gray rounded" style="display:none;" id="subcat1">
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu1</a></li>
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu2</a></li>
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu3</a></li>
-                      </ul>
-                    </li>
-                    <li><a class=" text-dark px-2" id="cat2" href="#">Grocessary >></a>
-                      <ul class=" bg-white position-absolute start-50 top-2.5 p-2 border border-gray rounded" style="display:none;" id="subcat2">
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu1</a></li>
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu2</a></li>
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu3</a></li>
-                      </ul>
-                    </li>
-                    <li><a class=" text-dark px-2" id="cat3" href="#">Clothes >></a>
-                      <ul class=" bg-white position-absolute start-50 top-5 p-2 border border-gray rounded" style="display:none;" id="subcat3">
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu1</a></li>
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu2</a></li>
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu3</a></li>
-                      </ul>
-                    </li>
-
+                    <!-- calling get_category_list php function from here -->
+                    <?php
+                    include('./functions/get_category_list.php');
+                    get_category_list();
+                    ?>
                   </ul>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="about.html"> About</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="product.html">Products</a>
+                  <a class="nav-link" href="functions\display_products.php">Products</a>
                 </li>
               </ul>
             </div>
@@ -182,78 +187,26 @@ include('./db/connect.php');
     </div>
     <div class="container px-4 px-lg-5 mt-5">
       <div class="row gx-4 gx-lg-2 row-cols-sm-1 row-cols-md-2 row-cols-xl-3 ">
+        <!-- calling function to display all products -->
         <?php
-        // do there for products fetch all of them 
+        include('./functions/display_products.php');
+
+        if (isset($_GET['search_button'])) {
+          //echo "search is clicked and working now";
+          $searched_text = $_GET['search_text'];
+          display_all_products($searched_text);
+        }
+         else {
+         // echo "else is working";
+          display_all_products("");
+        }
+       // display_all_products("");
+
         ?>
 
-        <div class="col mb-5">
-          <div class="card h-auto">
 
-            <img class="card-img-top w-100" src="images/p5.png" style="height:350px" alt="..." />
 
-            <div class="">
-              <div class="text-center">
 
-                <h5 class="fw-bolder">Fancy Product</h5>
-
-                $80.00
-              </div>
-            </div>
-
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              <div class="text-center ">
-                <a class="btn btn-outline-none mt-auto bg-success text-light" href="#">Add to Cart</a>
-                <a class="btn btn-outline-none mt-auto bg-warning text-light" href="#">View More</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col mb-5">
-          <div class="card h-auto">
-
-            <img class="card-img-top w-100" src="images/p5.png" style="height:350px" alt="..." />
-
-            <div class="">
-              <div class="text-center">
-
-                <h5 class="fw-bolder">Fancy Product</h5>
-
-                $80.00
-              </div>
-            </div>
-
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              <div class="text-center ">
-                <a class="btn btn-outline-dark mt-auto" href="#">Add to Cart</a>
-                <a class="btn btn-outline-dark mt-auto" href="#">View More</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col mb-5">
-          <div class="card h-auto">
-
-            <img class="card-img-top w-100" src="images/p5.png" style="height:350px" alt="..." />
-
-            <div class="">
-              <div class="text-center">
-
-                <h5 class="fw-bolder">Fancy Product</h5>
-
-                $80.00
-              </div>
-            </div>
-
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              <div class="text-center ">
-                <a class="btn btn-outline-dark mt-auto" href="#">Add to Cart</a>
-                <a class="btn btn-outline-dark mt-auto" href="#">View More</a>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div class="col mb-5">
           <div class="card h-auto">
@@ -338,7 +291,6 @@ include('./db/connect.php');
 
     })
   </script>
-
 
 </body>
 
