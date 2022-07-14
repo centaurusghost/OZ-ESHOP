@@ -133,6 +133,7 @@ include('../db/connect.php');
                                                 $user_id = (int)$row['user_id'];
                                                 $supplier_name=$row['supplier_name'];
                                                 $supplier_address=$row['supplier_address'];
+                                                $supplier_id=$row['supplier_id'];
 
                                         ?>
                                                 <tr>
@@ -145,8 +146,8 @@ include('../db/connect.php');
                                                             $user_phone_number = (int)$row1['user_phone_number'];
                                                         }
                                                         echo $user_phone_number ?></td>
-                                                    <td><button class='btn btn-success btn-sm edit btn-flat'><i class='fa fa-check'></i> Approve</button>
-                                                        <button class='btn btn-danger btn-sm delete btn-flat'><i class='fa fa-trash'></i> Delete</button>
+                                                    <td><a href="./supplier_request_handler.php?pending_supplier_id=<?php echo $supplier_id ?>&approve=<?php echo 1;?>"> <button class='btn btn-success btn-sm edit btn-flat'><i class='fa fa-check'></i> Approve</button></a>
+                                                        <a href="./supplier_request_handler.php?pending_supplier_id=<?php echo $supplier_id ?>&approve=<?php echo 0;?>"><button class='btn btn-danger btn-sm delete btn-flat'><i class='fa fa-trash'></i> Delete</button></a>
                                                     </td>
                                                 </tr>
                                         <?php
