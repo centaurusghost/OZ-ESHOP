@@ -1,5 +1,6 @@
 <?php
 include('./get_summary.php');
+//session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -57,6 +58,12 @@ include('./get_summary.php');
 
                     <a href="./users.php"><i class="fa-solid fa-users"></i> Users</a>
                 </li>
+
+                <li class="d-flex mx-2 align-items-center">
+                    <a href="./supplier_details.php"> <i class="fa-solid fa-boxes-packing "></i>
+                        Suppliers </a>
+                </li>
+
                 <li class="d-flex mx-2 align-items-center">
                     <a href="./supplier_request.php"> <i class="fa-solid fa-boxes-packing "></i>
                         Supplier Requests </a>
@@ -89,7 +96,7 @@ include('./get_summary.php');
                         <ul class="nav navbar-nav ml-auto">
 
                             <li class="nav-item">
-                                <a class="nav-link position-relative" id="admin_dropdown" href="#"><img src="https://www.kindpng.com/picc/m/10-109847_admin-icon-hd-png-download.png" alt="" style="width:30px; height:30px">Admin</a>
+                                <a class="nav-link position-relative" id="admin_dropdown" href="#"><img src="https://www.kindpng.com/picc/m/10-109847_admin-icon-hd-png-download.png" alt="" style="width:30px; height:30px"><?php echo $_SESSION['username'];?></a>
                                 <ul class=" bg-white position-absolute p-2 border border-gray rounded start-100" style="display:none; width:140px; margin-left:-120px;" id="admin_dropdown_menu">
                                     <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-white fw-bold ">Logout</a></li>
                                 </ul>

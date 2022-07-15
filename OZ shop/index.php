@@ -76,7 +76,31 @@ session_start();
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span>text</span>
               </a> -->
+              <a href="./cart/checkout_page.php" class="cart-link">
+                <span>
+                  <!-- Maybe it looks better without text -->
+                </span>
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <sup>
 
+                  <?php
+                  if (isset($_SESSION['items_in_cart'])) {
+                    echo $_SESSION['items_in_cart'];
+                  } else {
+                    echo 0;
+                  }
+                  ?>
+
+                </sup>
+              </a>
+              <a href="" class="cart-link">
+                <i class="fa fa-user-circle" aria-hidden="true"></i>
+                <span>
+                  <?php
+                  echo $_SESSION['username'];
+                  ?>
+                </span>
+              </a>
               <?php
               include('./user/check_login_state.php');
 
@@ -84,18 +108,17 @@ session_start();
 
               ?>
 
-              <a href="./admin/home.php" class="account-link">
+              <!-- <a href="./admin/home.php" class="account-link">
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span>
                   Admin Panel
                 </span>
-              </a>
-              <a href="" class="cart-link">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                <span>
-                  Cart
-                </span>
-              </a>
+              </a> -->
+
+
+
+
+
             </div>
           </div>
 
@@ -133,10 +156,10 @@ session_start();
                   </ul>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="about.html"> About</a>
+                  <a class="nav-link" href="#"> About</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="functions\display_products.php">Products</a>
+                  <a class="nav-link" href="#">Products</a>
                 </li>
               </ul>
             </div>
@@ -195,12 +218,11 @@ session_start();
           //echo "search is clicked and working now";
           $searched_text = $_GET['search_text'];
           display_all_products($searched_text);
-        }
-         else {
-         // echo "else is working";
+        } else {
+          // echo "else is working";
           display_all_products("");
         }
-       // display_all_products("");
+        // display_all_products("");
 
         ?>
 
@@ -208,7 +230,7 @@ session_start();
 
 
 
-        <div class="col mb-5">
+        <!-- <div class="col mb-5">
           <div class="card h-auto">
 
             <img class="card-img-top w-100" src="images/p5.png" style="height:350px" alt="..." />
@@ -229,7 +251,7 @@ session_start();
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>

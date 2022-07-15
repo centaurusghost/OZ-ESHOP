@@ -1,5 +1,5 @@
 <?php
-include('../includes/connect.php');
+include('../db/connect.php');
 session_start();
 ?>
 <?php
@@ -20,9 +20,11 @@ if (isset($_POST['user_login_submit_button'])) {
       $user_temp_password = $row['user_password'];
       $user_username = $row['user_username'];
       $user_phone_number = (int)$row['user_phone_number'];
-      $search_admin = "select user_id from admin where admin.user_id='$user_id'";
+      
     }
+    $search_admin = "select user_id from admin where user_id='$user_id'";
     $result_admin = mysqli_query($con, $search_admin);
+
     $get_admin_count = mysqli_num_rows($result_admin);
     // echo '<script>alert("'.$user_phone_number.'");</script>';
     if ($user_temp_email != NULL and $user_temp_password = !NULL and $user_email == $user_temp_email and $user_password == $user_temp_password) {
@@ -30,24 +32,28 @@ if (isset($_POST['user_login_submit_button'])) {
       // refresh page to make user logged in
       if ($get_admin_count != 0) {
         $_SESSION['user_logged_in_status'] = true;
-        $_SESSION['username'] = $user_username." Admin";;
+        $_SESSION['username'] = "Hello ". $user_username;
         $_SESSION['user_id'] = (int)$user_id;
         echo "<script>alert('Admin Logged In')</script>";
         echo "<script>window.open('../admin/home.php')</script>";
+       // break;
+      }
+      else{
+        $_SESSION['user_logged_in_status'] = true;
+        $_SESSION['username'] = $user_username;
+        $_SESSION['user_id'] = (int)$user_id;
+        header("Location: ../index.php");
       }
 
-      $_SESSION['user_logged_in_status'] = true;
-      $_SESSION['username'] = $user_username;
-      $_SESSION['user_id'] = (int)$user_id;
-      header("Location: ../index.php");
+   
       // echo "<script>
       // window.open('http://localhost/Ecommerce%20Website/index.php,'_self');
       // </script>";
-
+  //break;
 
     } else {
       echo "<script>alert('Email or password Do not match')</script>";
-      echo "<script>window.open('../index.php')</script>";
+      echo "<script>window.open('./login_test_page.php')</script>";
       //  $_SESSION['user_logged_in_status'] = false;
     }
   }

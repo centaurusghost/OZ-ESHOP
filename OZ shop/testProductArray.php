@@ -1,5 +1,5 @@
 <?php
-include('./user/cart_handler_home.php');
+include('./cart/cart_handler_home.php');
 include('./db/connect.php');
 //session_start();
 echo $_SESSION['user_id'];

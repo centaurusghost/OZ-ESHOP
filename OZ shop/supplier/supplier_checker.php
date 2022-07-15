@@ -9,7 +9,7 @@ function checkIsSupplier()
            // echo "User is not a supplier";
             // do not display become a supplier button
            echo "<div class='contact_nav'>
-            <a href=''>
+            <a href='./supplier/supplier_registration_form.php'>
               <i class='fa fa-truck fa-lg' aria-hidden='true'></i>
               <span>
                 Become a supplier

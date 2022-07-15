@@ -34,7 +34,7 @@ include('./db/connect.php');
     
                 <div class='card-footer p-4 pt-0 border-top-0 bg-transparent'>
                   <div class='text-center '>
-                    <a class='btn btn-outline-none mt-auto bg-success text-light' href='./user/cart_handler_home.php?add_to_cart_id=$product_id'>Add to Cart</a>
+                    <a class='btn btn-outline-none mt-auto bg-success text-light' href='./cart/cart_handler_home.php?add_to_cart_id=$product_id'>Add to Cart</a>
                     <a class='btn btn-outline-none mt-auto bg-warning text-light' href='#'>View More</a>
                   </div>
                 </div>

@@ -59,6 +59,10 @@ include('../db/connect.php');
                     <a href="./users.php"><i class="fa-solid fa-users"></i> Users</a>
                 </li>
                 <li class="d-flex mx-2 align-items-center">
+                    <a href="./supplier_details.php"> <i class="fa-solid fa-boxes-packing "></i>
+                        Suppliers </a>
+                </li>
+                <li class="d-flex mx-2 align-items-center">
                     <a href="./supplier_request.php"> <i class="fa-solid fa-boxes-packing "></i>
                         Supplier Requests </a>
                 </li>
@@ -146,8 +150,8 @@ include('../db/connect.php');
                                                             $user_phone_number = (int)$row1['user_phone_number'];
                                                         }
                                                         echo $user_phone_number ?></td>
-                                                    <td><a href="./supplier_request_handler.php?pending_supplier_id=<?php echo $supplier_id ?>&approve=<?php echo 1;?>"> <button class='btn btn-success btn-sm edit btn-flat'><i class='fa fa-check'></i> Approve</button></a>
-                                                        <a href="./supplier_request_handler.php?pending_supplier_id=<?php echo $supplier_id ?>&approve=<?php echo 0;?>"><button class='btn btn-danger btn-sm delete btn-flat'><i class='fa fa-trash'></i> Delete</button></a>
+                                                    <td><a href="./supplier_request_handler.php?pending_supplier_id=<?php echo $supplier_id ?>&approve=<?php echo 1;?>"> <button class='btn btn-success btn-sm edit btn-flat' onclick="return confirm('Are you Sure you want to Approve?')"><i class='fa fa-check'></i> Approve</button></a>
+                                                        <a href="./supplier_request_handler.php?pending_supplier_id=<?php echo $supplier_id ?>&approve=<?php echo 0;?>"><button class='btn btn-danger btn-sm delete btn-flat' onclick="return confirm('Are you Sure you want to delete?')"><i class='fa fa-trash'></i> Delete</button></a>
                                                     </td>
                                                 </tr>
                                         <?php

@@ -1,7 +1,7 @@
 <?php
 include('../db/connect.php');
 ?>
-
+<!-- DISPLAYS CURRENT SUPPLIERS DETAILS WITH EDIT AND DELETE BUTTON -->
 <!DOCTYPE html>
 <html>
 
@@ -58,14 +58,19 @@ include('../db/connect.php');
 
                     <a href="./users.php"><i class="fa-solid fa-users"></i> Users</a>
                 </li>
+
                 <li class="d-flex mx-2 align-items-center">
                     <a href="./supplier_details.php"> <i class="fa-solid fa-boxes-packing "></i>
                         Suppliers </a>
                 </li>
+
                 <li class="d-flex mx-2 align-items-center">
                     <a href="./supplier_request.php"> <i class="fa-solid fa-boxes-packing "></i>
                         Supplier Requests </a>
                 </li>
+
+                
+
                 <li class="d-flex mx-2 align-items-center">
                     <a href="./products.php"> <i class="fa-brands fa-product-hunt"></i>
                         Products</a>
@@ -112,22 +117,6 @@ include('../db/connect.php');
                     </span>
                 </div>
             </form>
-            <div class="container mt-5">
-                <div class="row">
-                    <div class="col-xs-7">
-                        <tr>
-                            <!-- add category text field  -->
-                            <input type="text" id="add_category_text" maxlength="20" name="add_category_text" required> </input>
-                            <a href="javascript:;" onclick="this.href='./add_category.php?category_name=' + document.getElementById('add_category_text').value">
-                                <td><button class='btn btn-success btn-sm edit btn-flat'><i class='fa fa-plus'></i> Add Category</button>
-                            </a>
-                            </td>
-                        </tr>
-                    </div>
-                </div>
-            </div>
-
-
 
             <div class="container mt-5">
                 <div class="row">
@@ -136,29 +125,44 @@ include('../db/connect.php');
                             <div class="box-body">
                                 <table id="example1" class="table table-bordered">
                                     <thead>
-                                        <th>Category Name</th>
-                                        <th>Tools</th>
+                                        <th>Supplier Name</th>
+                                        <th>Address</th>
+                                        <th>Phone Number</th>
+                                        <th>Action</th>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $query = "SELECT * FROM category";
+                                        // it diffrenciated from supplier and pending suppliers
+                                        $query = "SELECT * FROM supplier";
+                                        $user_phone_number = 0;
                                         $data = mysqli_query($con, $query);
                                         $result = mysqli_num_rows($data);
                                         if ($result) {
                                             while ($row = mysqli_fetch_array($data)) {
+                                                $user_id = (int)$row['user_id'];
+                                                $supplier_name=$row['supplier_name'];
+                                                $supplier_address=$row['supplier_address'];
+                                                $supplier_id=$row['supplier_id'];
+
                                         ?>
                                                 <tr>
-                                                    <td><?php echo $row['category_name'] ?></td>
-                                                    <td><button class='btn btn-success btn-sm edit btn-flat'><i class='fa fa-edit'></i> Edit</button>
-                                                        <!-- <button class='btn btn-danger btn-sm delete btn-flat'><i class='fa fa-trash'></i> Delete</button> -->
-                                                        <a href="./delete_category.php?category_id=<?php echo $row['category_id'] ?>" class='btn btn-danger btn-sm delete btn-flat' onclick="return confirm('Are you want to delete?')"><i class='fa fa-trash'></i> Delete</a>
+                                                    <td><?php echo $row['supplier_name'] ?></td>
+                                                    <td><?php echo $row['supplier_address'] ?></td>
+                                                    <td><?php $query_phone_number = "select user_phone_number from user where user_id='$user_id'";
+
+                                                        $result_phone_number = mysqli_query($con, $query_phone_number);
+                                                        while ($row1 = mysqli_fetch_assoc($result_phone_number)) {
+                                                            $user_phone_number = (int)$row1['user_phone_number'];
+                                                        }
+                                                        echo $user_phone_number ?></td>
+                                                    <td><a href="#"> <button class='btn btn-success btn-sm edit btn-flat'><i class='fa fa-pencil' ></i>   Edit</button></a>
+                                                        <a href="./supplier_details_handler.php?pending_supplier_id=<?php echo $supplier_id ?>&approve=<?php echo 0;?>"><button class='btn btn-danger btn-sm delete btn-flat' onclick="return confirm('Are you want to delete?')"><i class='fa fa-trash'></i>    Delete</button></a>
                                                     </td>
                                                 </tr>
                                         <?php
                                             }
                                         }
                                         ?>
-
                                     </tbody>
                                 </table>
                             </div>
