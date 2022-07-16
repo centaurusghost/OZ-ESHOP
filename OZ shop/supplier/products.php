@@ -1,6 +1,6 @@
 <?php
 include '../db/connect.php';
-
+session_start();
 
 ?>
 
@@ -19,7 +19,7 @@ include '../db/connect.php';
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>OB Shop</title>
+    <title>OZ Shop</title>
 
 
     <!-- bootstrap core css -->
@@ -48,9 +48,11 @@ include '../db/connect.php';
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
-            <div class="sidebar-header">
+           <a href="../index.php">
+           <div class="sidebar-header">
                 <h3>OZ SHOPE</h3>
             </div>
+           </a> 
 
             <ul class="list-unstyled components">
 
@@ -58,26 +60,13 @@ include '../db/connect.php';
 
                     <a href="./home.php"> <i class="fa-solid fa-gauge"></i> Dashboard</a>
                 </li>
-                <li class="d-flex mx-2 align-items-center">
-
-                    <a href="./users.php"><i class="fa-solid fa-users"></i> Users</a>
-                </li>
-                <li class="d-flex mx-2 align-items-center">
-                    <a href="./supplier_details.php"> <i class="fa-solid fa-boxes-packing "></i>
-                        Suppliers </a>
-                </li>
-                <li class="d-flex mx-2 align-items-center">
-                    <a href="./supplier_request.php"> <i class="fa-solid fa-boxes-packing "></i>
-                        Supplier Requests </a>
-                </li>
+                
+               
                 <li class="d-flex mx-2 align-items-center">
                     <a href="./products.php"> <i class="fa-brands fa-product-hunt"></i>
                         Products</a>
                 </li>
-                <li class="d-flex mx-2 align-items-center">
-                    <a href="./categories.php"> <i class="fa-solid fa-c"></i>
-                        Category</a>
-                </li>
+                
             </ul>
 
         </nav>
@@ -99,7 +88,7 @@ include '../db/connect.php';
                             <li class="nav-item">
                                 <a class="nav-link position-relative" id="admin_dropdown" href="#"><img src="https://www.kindpng.com/picc/m/10-109847_admin-icon-hd-png-download.png" alt="" style="width:30px; height:30px">Admin</a>
                                 <ul class=" bg-white position-absolute p-2 border border-gray rounded start-100" style="display:none; width:140px; margin-left:-120px;" id="admin_dropdown_menu">
-                                    <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-white fw-bold ">Logout</a></li>
+                                    <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-white fw-bold " >Logout</a></li>
                                 </ul>
                             </li>
 
@@ -137,7 +126,8 @@ include '../db/connect.php';
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $query = "SELECT * FROM product";
+                                            $user_id=$_SESSION['user_id'];
+                                            $query = "select * from product where supplier_id=(select supplier_id from supplier where user_id='$user_id')";
                                             $data = mysqli_query($con, $query);
                                             $result = mysqli_num_rows($data);
                                             if ($result) {
@@ -146,15 +136,17 @@ include '../db/connect.php';
                                                     $product_title = $row['product_title'];
                                                     $product_price = $row['product_price'];
                                                     $product_image = $row['product_image'];
-                                                    echo "<tr>
-                                                            <td>  $product_title</td>
-                                                            <td><img class='' src='../productimages/$product_image' style='height:30px; width:30px;' alt='...' /></td>
+                                                    //$product_details=row['product_details'];
+                                                    ?> <tr>
+                                                            <td>  <?php echo $product_title ?></td>
+                                                            <td><img class='' src='../productimages/<?php echo $product_image ?>' style='height:30px; width:30px;' alt='...' /></td>
                                                             <td><button onClick='detailPage($product_id)' id='view_btn' class='btn btn-info btn-sm btn-flat desc' data-bs-toggle='modal' data-bs-target='#myModal'><i class='fa fa-search'></i> View</button></td>
-                                                            <td>$product_price</td>
-                                                            <td><button class='btn btn-success btn-sm edit btn-flat'><i class='fa fa-edit'></i> Edit</button>
-                                                                <button class='btn btn-danger btn-sm delete btn-flat'><i class='fa fa-trash'></i> Delete</button>
+                                                            <td>Rs.<?php echo $product_price ?></td>
+                                                            <td> <a href='./edit_product.php?product_id=<?php  echo $product_id ?>'> <button class='btn btn-success btn-sm edit btn-flat' onclick="return confirm('Do you Want To Edit?')"><i class='fa fa-edit'></i> Edit</button></a>
+                                                                <a href='./delete_products.php?product_id=<?php  echo $product_id ?>'><button class='btn btn-danger btn-sm delete btn-flat' onclick="return confirm('Are you sure you want to delete?')"><i class='fa fa-trash'></i> Delete</button></a>
                                                             </td>
-                                                            </tr>";
+                                                            </tr>
+                                                            <?php
                                                 }
                                             }
                                             ?>
@@ -203,7 +195,7 @@ include '../db/connect.php';
             } else {
                 $id_of_product = $_COOKIE['cookie_product_id'];
 
-                $display_product_query = "select * from temp_product where product_id = '$id_of_product'";
+                $display_product_query = "select * fromproduct where product_id = '$id_of_product'";
 
                 $result = mysqli_query($con, $display_product_query);
                 if ($result) {

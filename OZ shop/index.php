@@ -1,5 +1,11 @@
 <?php
 include('./db/connect.php');
+//include('./session/session_variables.php');
+session_start();
+// if(isset($_GET['category_name'])){
+//   $category_type=$_GET['category_name'];
+// }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,34 +52,90 @@ include('./db/connect.php');
       <div class="header_top">
         <div class="container-fluid">
           <div class="top_nav_container">
-            <div class="contact_nav">
-              <a href="">
-                <i class="fa fa-phone" aria-hidden="true"></i>
-                <span>
-                  Become a supplier
-                </span>
-              </a>
+            <?php
+            include('./supplier/supplier_checker.php');
+            checkIsSupplier();
 
-            </div>
-            <from class="search_form">
-              <input type="text" class="form-control" placeholder="Search here...">
-              <button class="" type="submit">
+            // php code here to check if supplier or not
+
+            ?>
+
+            <form action="./product.php" class="search_form" >
+              <input type="text" class="form-control" name="search_text" placeholder="Search here...">
+             <a href="#"> <button class="" type="submit" name="search_button" value="">
                 <i class="fa fa-search" aria-hidden="true"></i>
-              </button>
-            </from>
+              </button></a>
+            </form>
+
+
+            <!-- <form class="d-flex" role="search" method="GET">
+              <input class="form-control me-2" type="search" name="search_text" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" name="search_botton" type="submit">Search</button>
+            </form> -->
+
             <div class="user_option_box">
-              <a href="./admin/home.php" class="account-link">
+
+              <!-- php function here to handle login logout actions -->
+
+              <!-- <a href="#" class="account-link">
                 <i class="fa fa-user" aria-hidden="true"></i>
+                <span>text</span>
+              </a> -->
+              <a href="./cart.php" class="cart-link">
                 <span>
-                  Admin Panel
+                  <!-- Maybe it looks better without text -->
                 </span>
-              </a>
-              <a href="" class="cart-link">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                <span>
-                  Cart
-                </span>
+                <sup>
+
+                  <?php
+                  if (isset($_SESSION['items_in_cart'])) {
+                    echo $_SESSION['items_in_cart'];
+                  } else {
+                    echo 0;
+                  }
+                  ?>
+
+                </sup>
               </a>
+              
+
+
+              <?php
+                  $temp_username_var= $_SESSION['username'];
+                  $check_if_supplier="select supplier_id from supplier where supplier.user_id=(select user_id from user where user_username='$temp_username_var')";
+                  if(mysqli_num_rows(mysqli_query($con,$check_if_supplier))==1){
+                 echo "<a href='./supplier/home.php' class='cart-link'>
+                 <i class='fa fa-user-circle' aria-hidden='true'></i>
+                 <span>
+                 $temp_username_var
+                 </span>
+               </a>"  ;  }
+
+
+               else{
+                echo "<a href='#' class='cart-link'>
+                 <i class='fa fa-user-circle' aria-hidden='true'></i>
+                 <span>
+                $temp_username_var
+                 </span>
+               </a>" ;
+
+               }
+                  ?>
+
+               
+              
+
+              <?php
+              include('./user/check_login_state.php');
+
+              login_logout_button_handler();
+
+              ?>
+
+              
+
             </div>
           </div>
 
@@ -82,7 +144,7 @@ include('./db/connect.php');
       <div class="header_bottom">
         <div class="container-fluid">
           <nav class="navbar navbar-expand-lg custom_nav-container ">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="index.php">
               <span>
                 OZshop
               </span>
@@ -95,7 +157,7 @@ include('./db/connect.php');
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav ">
                 <li class="nav-item active">
-                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -103,35 +165,18 @@ include('./db/connect.php');
                     Category
                   </a>
                   <ul class="dropdown-menu" id="dropdown-menu">
-                    <li><a class=" text-dark px-2" id="cat1" href="#">Electronics >></a>
-                      <ul class=" bg-white position-absolute start-50 top-1 p-2 border border-gray rounded" style="display:none;" id="subcat1">
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu1</a></li>
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu2</a></li>
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu3</a></li>
-                      </ul>
-                    </li>
-                    <li><a class=" text-dark px-2" id="cat2" href="#">Grocessary >></a>
-                      <ul class=" bg-white position-absolute start-50 top-2.5 p-2 border border-gray rounded" style="display:none;" id="subcat2">
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu1</a></li>
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu2</a></li>
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu3</a></li>
-                      </ul>
-                    </li>
-                    <li><a class=" text-dark px-2" id="cat3" href="#">Clothes >></a>
-                      <ul class=" bg-white position-absolute start-50 top-5 p-2 border border-gray rounded" style="display:none;" id="subcat3">
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu1</a></li>
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu2</a></li>
-                        <li class="nav-item" style="list-style:none;"><a href="#" class="nav-link text-dark">submenu3</a></li>
-                      </ul>
-                    </li>
-
+                    <!-- calling get_category_list php function from here -->
+                    <?php
+                    include('./functions/get_category_list.php');
+                    get_category_list();
+                    ?>
                   </ul>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="about.html"> About</a>
+                  <a class="nav-link" href="#"> About</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="product.html">Products</a>
+                  <a class="nav-link" href="./product.php">Products</a>
                 </li>
               </ul>
             </div>
@@ -151,10 +196,13 @@ include('./db/connect.php');
                 <div class="col-md-6 d-flex flex-col justify-content-center align-items-center">
                   <div class="detail-box ">
                     <h1 class="fs-3">
-                      Welcome to our E-commerce Shop
+                      Welcome to our Page
                     </h1>
                     <p>
                       This is What we do for you?
+                    </p>
+                    <p>
+                      All Your Needs In 1 Place
                     </p>
                     <a class="btn btn-warning text-white fw-bold" href="">
                       ABOUT US
@@ -177,39 +225,23 @@ include('./db/connect.php');
   <section class="py-5">
     <div class="heading_container heading_center">
       <h2>
-        Our Products
+       
       </h2>
     </div>
     <div class="container px-4 px-lg-5 mt-5">
       <div class="row gx-4 gx-lg-2 row-cols-sm-1 row-cols-md-2 row-cols-xl-3 ">
+        <!-- calling function to display all products -->
         <?php
-        // do there for products fetch all of them 
+        include('./functions/display_products.php');        
+        // no need of functions anymore
+
         ?>
 
-        <div class="col mb-5">
-          <div class="card h-auto">
 
-            <img class="card-img-top w-100" src="images/p5.png" style="height:350px" alt="..." />
 
-            <div class="">
-              <div class="text-center">
 
-                <h5 class="fw-bolder">Fancy Product</h5>
 
-                $80.00
-              </div>
-            </div>
-
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              <div class="text-center ">
-                <a class="btn btn-outline-none mt-auto bg-success text-light" href="#">Add to Cart</a>
-                <a class="btn btn-outline-none mt-auto bg-warning text-light" href="#">View More</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col mb-5">
+        <!-- <div class="col mb-5">
           <div class="card h-auto">
 
             <img class="card-img-top w-100" src="images/p5.png" style="height:350px" alt="..." />
@@ -230,53 +262,7 @@ include('./db/connect.php');
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="col mb-5">
-          <div class="card h-auto">
-
-            <img class="card-img-top w-100" src="images/p5.png" style="height:350px" alt="..." />
-
-            <div class="">
-              <div class="text-center">
-
-                <h5 class="fw-bolder">Fancy Product</h5>
-
-                $80.00
-              </div>
-            </div>
-
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              <div class="text-center ">
-                <a class="btn btn-outline-dark mt-auto" href="#">Add to Cart</a>
-                <a class="btn btn-outline-dark mt-auto" href="#">View More</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col mb-5">
-          <div class="card h-auto">
-
-            <img class="card-img-top w-100" src="images/p5.png" style="height:350px" alt="..." />
-
-            <div class="">
-              <div class="text-center">
-
-                <h5 class="fw-bolder">Fancy Product</h5>
-
-                $80.00
-              </div>
-            </div>
-
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              <div class="text-center ">
-                <a class="btn btn-outline-dark mt-auto" href="#">Add to Cart</a>
-                <a class="btn btn-outline-dark mt-auto" href="#">View More</a>
-              </div>
-            </div>
-          </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -338,7 +324,6 @@ include('./db/connect.php');
 
     })
   </script>
-
 
 </body>
 

@@ -59,7 +59,15 @@ include('../db/connect.php');
 
                     <a href="./users.php"><i class="fa-solid fa-users"></i> Users</a>
                 </li>
+                <li class="d-flex mx-2 align-items-center">
+                    <a href="./supplier_details.php"> <i class="fa-solid fa-boxes-packing "></i>
+                        Suppliers </a>
+                </li>
 
+                <li class="d-flex mx-2 align-items-center">
+                    <a href="./supplier_request.php"> <i class="fa-solid fa-boxes-packing "></i>
+                        Supplier Requests </a>
+                </li>
                 <li class="d-flex mx-2 align-items-center">
                     <a href="./products.php"> <i class="fa-brands fa-product-hunt"></i>
                         Products</a>

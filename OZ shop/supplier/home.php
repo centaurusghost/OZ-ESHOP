@@ -1,6 +1,6 @@
 <?php
-include('./get_summary.php');
-//session_start();
+//include('./admin/get_summary.php');
+session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,9 +44,11 @@ include('./get_summary.php');
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>OZ SHOPE</h3>
-            </div>
+            <a href="../index.php">
+                <div class="sidebar-header">
+                    <h3>OZ SHOPE</h3>
+                </div>
+            </a>
 
             <ul class="list-unstyled components">
 
@@ -54,29 +56,16 @@ include('./get_summary.php');
 
                     <a href="./home.php"> <i class="fa-solid fa-gauge"></i> Dashboard</a>
                 </li>
-                <li class="d-flex mx-2 align-items-center">
 
-                    <a href="./users.php"><i class="fa-solid fa-users"></i> Users</a>
-                </li>
 
-                <li class="d-flex mx-2 align-items-center">
-                    <a href="./supplier_details.php"> <i class="fa-solid fa-boxes-packing "></i>
-                        Suppliers </a>
-                </li>
 
-                <li class="d-flex mx-2 align-items-center">
-                    <a href="./supplier_request.php"> <i class="fa-solid fa-boxes-packing "></i>
-                        Supplier Requests </a>
-                </li>
 
                 <li class="d-flex mx-2 align-items-center">
                     <a href="./products.php"> <i class="fa-brands fa-product-hunt"></i>
                         Products</a>
                 </li>
-                <li class="d-flex mx-2 align-items-center">
-                    <a href="./categories.php"> <i class="fa-solid fa-c"></i>
-                        Category</a>
-                </li>
+
+
             </ul>
 
         </nav>
@@ -96,7 +85,7 @@ include('./get_summary.php');
                         <ul class="nav navbar-nav ml-auto">
 
                             <li class="nav-item">
-                                <a class="nav-link position-relative" id="admin_dropdown" href="#"><img src="https://www.kindpng.com/picc/m/10-109847_admin-icon-hd-png-download.png" alt="" style="width:30px; height:30px"><?php echo $_SESSION['username'];?></a>
+                                <a class="nav-link position-relative" id="admin_dropdown" href="#"><img src="https://www.kindpng.com/picc/m/10-109847_admin-icon-hd-png-download.png" alt="" style="width:30px; height:30px"><?php echo $_SESSION['username']; ?></a>
                                 <ul class=" bg-white position-absolute p-2 border border-gray rounded start-100" style="display:none; width:140px; margin-left:-120px;" id="admin_dropdown_menu">
                                     <li class="nav-item" style="list-style:none;"><a href="../loginhandler/logout.php" class="nav-link text-white fw-bold ">Logout</a></li>
                                 </ul>
@@ -110,34 +99,36 @@ include('./get_summary.php');
             <div class="container mt-5">
                 <div class="row gx-4 gx-lg-4 row-cols-sm-1 row-cols-md-2 row-cols-xl-3 ">
 
-                    <div class="col mb-5">
-                        <div class="card d-flex justify-content-center align-items-center " style="height:200px;">
-                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Users: <span> <?php  get_total_users();  ?> </span></p>
-                        </div>
-                    </div>
+
+
+
 
                     <div class="col mb-5">
                         <div class="card d-flex justify-content-center align-items-center " style="height:200px;">
-                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Suppliers: <span><?php  get_total_suppliers();  ?></span></p>
+                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Products: <span>
+                                <?php
+                                 include('./get_summary.php');
+                                get_total_products(); //get_total_products();  
+                              ?></span></p>
                         </div>
                     </div>
 
-                    <div class="col mb-5">
-                        <div class="card d-flex justify-content-center align-items-center " style="height:200px;">
-                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Products: <span><?php  get_total_products();  ?></span></p>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card d-flex justify-content-center align-items-center " style="height:200px;">
-                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Category: <span><?php  get_total_category();  ?></span></p>
-                        </div>
-                    </div>
 
                     <div class="col mb-5">
                         <div class="card d-flex justify-content-center align-items-center " style="height:200px;">
-                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Transcation: <span>RS. <?php  get_total_transaction();  ?>+</span></p>
+                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Transcation: <span>RS.
+                                    <?php
+                                    get_total_transaction();
+                                    ?>
+                                    +</span></p>
                         </div>
                     </div>
+
+                    <!-- <div class="col mb-5">
+                        <div class="card d-flex justify-content-center align-items-center " style="height:200px;">
+                            <p style="color:#3a4468;" class="fw-bold fs-5">Total Category: <span><?php echo "Test" ?></span></p>
+                        </div>
+                    </div> -->
                 </div>
             </div>
         </div>
