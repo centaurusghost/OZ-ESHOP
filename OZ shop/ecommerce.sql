@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2022 at 07:35 PM
+-- Generation Time: Jul 17, 2022 at 03:39 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -57,12 +57,10 @@ CREATE TABLE `category` (
 
 INSERT INTO `category` (`category_id`, `category_name`) VALUES
 (21, 'Clothes'),
-(3, 'Cosmetics'),
 (1, 'Electronics'),
 (24, 'Fans'),
 (14, 'Furnitures'),
-(2, 'Household'),
-(25, 'Nirajan');
+(2, 'Household');
 
 -- --------------------------------------------------------
 
@@ -147,8 +145,7 @@ INSERT INTO `product` (`supplier_id`, `product_id`, `product_title`, `product_im
 (93, 16, 'Nike Jacket Black', '1121657973609c0fb0e83111ebda04f52d61bd3aa7d32.png', 2100, 4, 'Clothes', 'The winter is coming soon. Buy it soon.'),
 (93, 17, 'T-shirt Genx', '1121657973648images.jpg', 350, 12, 'Clothes', 'Comfortable to wear in summer but gets dirty easily.'),
 (90, 18, 'WD Westen M.2 SSD 256GB', '10216579738711586236803-WDS120G2G0B-thb3.jpg', 5500, 7, 'Electronics', 'Sequential read is 2200MBps Sequential write is 1GBps'),
-(92, 22, 'Acer Nitro Monitor ', '1111657979868acer nitrro monitor.jpg', 28000, 4, 'Electronics', 'Blazing 165Hz refresh rate with NVIDIAs G_SYNC and AMDs FREE_SYNC support. 1ms response time.'),
-(90, 27, 'Nirajan Fair & Lovely', '1021657990817FAIR-AND-LOVELY-ADVANCE-MULTI-VITAMIN-50GM-5facae55292cc.jpg', 150, 23, 'Cosmetics', 'Nirajan doesnt need to be white . Or what shall i say. He is more brighter than the cream itself');
+(92, 22, 'Acer Nitro Monitor ', '1111657979868acer nitrro monitor.jpg', 28000, 4, 'Electronics', 'Blazing 165Hz refresh rate with NVIDIAs G_SYNC and AMDs FREE_SYNC support. 1ms response time.');
 
 -- --------------------------------------------------------
 
@@ -342,7 +339,8 @@ ALTER TABLE `pending_supplier`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`product_id`),
-  ADD KEY `supplier_id` (`supplier_id`);
+  ADD KEY `supplier_id` (`supplier_id`),
+  ADD KEY `fk_category_name` (`category_name`);
 
 --
 -- Indexes for table `session`
@@ -406,7 +404,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `email`
@@ -424,7 +422,7 @@ ALTER TABLE `pending_supplier`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `session`
@@ -483,7 +481,10 @@ ALTER TABLE `pending_supplier`
 -- Constraints for table `product`
 --
 ALTER TABLE `product`
-  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_category_name` FOREIGN KEY (`category_name`) REFERENCES `category` (`category_name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`category_name`) REFERENCES `category` (`category_name`),
+  ADD CONSTRAINT `product_ibfk_3` FOREIGN KEY (`category_name`) REFERENCES `category` (`category_name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `subcategory`
